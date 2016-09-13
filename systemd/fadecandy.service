@@ -1,0 +1,9 @@
+[Unit]
+Description=Fadecandy OPC server
+
+[Service]
+ExecStart=/home/pi/src/fadecandy/bin/fcserver-rpi /home/pi/src/fadecandy/config/default.json
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

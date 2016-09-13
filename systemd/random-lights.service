@@ -1,0 +1,10 @@
+[Unit]
+Description=Random Lights for Fadecandy
+Requires=fadecandy
+
+[Service]
+ExecStart=/home/pi/src/fadecandy/examples/perl/bunch-of-random.pl
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
