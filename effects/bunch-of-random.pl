@@ -4,6 +4,7 @@ use strict;
 use lib qw(/home/pi/src/fadecandy/examples/perl);
 use OPC;
 use List::Util qw(min);
+use Time::HiRes qw(gettimeofday usleep sleep);
 
 my $debug = 0;
 
@@ -17,6 +18,7 @@ my $pixels = [];
 push @$pixels, [0, 0, 0] while scalar(@$pixels) < $num_leds;
 $client->put_pixels(0, $pixels);
 
+my $rotate_time = 1000;
 my $iterations = 0;
 my $rotate_limit = 1000;
 
@@ -35,6 +37,8 @@ sub pick_leslie_colors {
             $pixels->[$i] = $lcols[int(rand(@lcols))];
         }
     }
+
+    return 1.0
 }
 
 sub pick_random_colors {
@@ -46,6 +50,8 @@ sub pick_random_colors {
                              int(rand($max_brightness))]; # blue
         }
     }
+
+    return 1.0
 }
 
 my @fcols = (
@@ -66,7 +72,7 @@ sub pick_fire_colors {
             $pixels->[$i] = $fcols[int(rand(@fcols))];
         }
     }
-
+    return 1.0
 }
     
 
@@ -81,12 +87,12 @@ while(1){
            $algo, $rough_algo, $ratio)
         if $debug;
     
-    $patterns[$algo]->($change_percentage * $ratio);
+    my $delay = $patterns[$algo]->($change_percentage * $ratio);
     
     # Send this row of pixels to the server
     $client->put_pixels(0,$pixels);
 
-    sleep 1;
+    Time::HiRes::sleep($delay);
     $iterations++;
 }
 
