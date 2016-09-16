@@ -1,0 +1,14 @@
+#!/bin/sh
+
+if git remote | grep -q origin ; then
+  git remote rename origin origin-old
+fi
+
+git remote add origin ssh://h4x0r5.com/home/ryan/src/fc-effects
+git config --replace branch.master.remote origin
+git remote add h4x0r5 ssh://h4x0r5.com/home/ryan/src/fc-effects
+git config alias.push-up "push h4x0r5 HEAD:refs/heads/incoming"
+
+# Github setup:
+git remote add github git@github.com:pugmajere/fc-effects.git
+git config alias.push-github "push github master"
