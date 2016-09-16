@@ -1,7 +1,6 @@
 #!/usr/bin/perl -w
 
 use strict;
-use lib qw(/home/pi/src/fadecandy/examples/perl);
 use OPC;
 use List::Util qw(min);
 
