@@ -19,7 +19,6 @@ $client->put_pixels(0, $pixels);
 
 my $rotate_time = 1000;
 my $iterations = 0;
-my $rotate_limit = 1000;
 
 my @lcols = ([195, 144, 212],
              [75, 71, 179],
@@ -65,25 +64,33 @@ my @fcols = (
 
 sub pick_fire_colors {
     my ($change_percentage) = @_;
+    $change_percentage /= 5;
     for (my $i = 0; $i < @$pixels; $i++) {
         my $pick = rand(100);
         if ($pick < $change_percentage) {
             $pixels->[$i] = $fcols[int(rand(@fcols))];
         }
     }
-    return 1.0
+    # Fire wants a fast flickering, over a smaller percentage of leds.
+    return 0.1;
 }
     
 
 my @patterns = (\&pick_leslie_colors, \&pick_random_colors, \&pick_fire_colors);
 
+my $last_change = 0;
+my $algo = 1;
 while(1){
-    my $algo = ($iterations / $rotate_limit) % @patterns;
-    my $rough_algo = $iterations / $rotate_limit;
-    my $ratio = min(($rough_algo - int($rough_algo)) / 0.05, 1.0);
+    my ($seconds, $micros) = gettimeofday();
+    if ($seconds - $last_change > $rotate_time) {
+        $algo = ($algo + 1) % scalar @patterns;
+        $last_cqhange = $seconds;
+    }
+    my $rough_ratio = (($seconds + $micros / 1000 / 1000)  - $last_change) / $rotate_time;
+    my $ratio = min($rough_ratio / 0.05, 1.0);
 
     printf("algo = %2.2f, rough = %2.2f, ratio = %2.2f\n",
-           $algo, $rough_algo, $ratio)
+           $algo, $rough_ratio, $ratio)
         if $debug;
     
     my $delay = $patterns[$algo]->($change_percentage * $ratio);

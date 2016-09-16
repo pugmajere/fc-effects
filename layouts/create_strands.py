@@ -8,10 +8,10 @@ def f(x):
     return [0.01 * x - adj, 0.2 * x - adj, 0.05 * x - adj]
 
 def g(x):
-    return [0.01 * x - adj, 0.25 * x - adj, 0.05 * x - adj]
+    return [0.01 * x - adj, 0.25 * x - adj * 2, 0.05 * x - adj]
 
 def h(x):
-    return [0.01 * x - adj, 0.175 * x - adj, 0.05 * x - adj]
+    return [0.01 * x - adj, 0.175 * x - adj * 3, 0.05 * x - adj]
 
 for i in range(50):
     points.append(f(i))
