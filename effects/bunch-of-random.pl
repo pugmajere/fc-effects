@@ -84,7 +84,7 @@ while(1){
     my ($seconds, $micros) = gettimeofday();
     if ($seconds - $last_change > $rotate_time) {
         $algo = ($algo + 1) % scalar @patterns;
-        $last_cqhange = $seconds;
+        $last_change = $seconds;
     }
     my $rough_ratio = (($seconds + $micros / 1000 / 1000)  - $last_change) / $rotate_time;
     my $ratio = min($rough_ratio / 0.05, 1.0);
