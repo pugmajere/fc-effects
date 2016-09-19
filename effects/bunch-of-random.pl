@@ -72,14 +72,14 @@ sub pick_fire_colors {
         }
     }
     # Fire wants a fast flickering, over a smaller percentage of leds.
-    return 0.1;
+    return 0.01;
 }
     
 
 my @patterns = (\&pick_leslie_colors, \&pick_random_colors, \&pick_fire_colors);
 
 my $last_change = 0;
-my $algo = -1;
+my $algo = 1;
 
 $client->set_color_correction(0, $gamma, 1.0, 1.0, 1.0);
 while(1){
