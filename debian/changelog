@@ -1,9 +1,11 @@
-fc-effects (1.0.3) UNRELEASED; urgency=medium
+fc-effects (1.0.4) UNRELEASED; urgency=medium
 
   * Update changelog for 1.0.2 release
   * Speed up fire
+  * Update changelog for 1.0.3 release
+  * Gamma of 5 washes out the yellows, so go down to 4.
 
- -- Ryan Anderson <ryan@michonline.com>  Sun, 18 Sep 2016 22:16:53 -0700
+ -- Ryan Anderson <ryan@michonline.com>  Sun, 18 Sep 2016 22:24:26 -0700
 
 fc-effects (1.0.2) xenial; urgency=medium
 
