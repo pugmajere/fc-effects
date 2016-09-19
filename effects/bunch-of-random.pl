@@ -8,7 +8,7 @@ use Time::HiRes qw(gettimeofday usleep sleep);
 my $debug = 0;
 
 my $num_leds = 150;
-my $gamma = 2.5;
+my $gamma = 5;
 my $change_percentage = 33;
 my $client = new OPC('localhost:7890');
 $client->can_connect();
@@ -79,7 +79,7 @@ sub pick_fire_colors {
 my @patterns = (\&pick_leslie_colors, \&pick_random_colors, \&pick_fire_colors);
 
 my $last_change = 0;
-my $algo = 1;
+my $algo = -1;
 
 $client->set_color_correction(0, $gamma, 1.0, 1.0, 1.0);
 while(1){
