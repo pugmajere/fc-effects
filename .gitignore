@@ -1,0 +1,8 @@
+debian/debhelper-build-stamp
+debian/fc-effects.debhelper.log
+debian/fc-effects.postinst.debhelper
+debian/fc-effects.postrm.debhelper
+debian/fc-effects.prerm.debhelper
+debian/fc-effects.substvars
+debian/fc-effects
+debian/files
