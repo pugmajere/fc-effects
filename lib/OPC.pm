@@ -214,12 +214,13 @@ sub set_color_correction {
 	my $is_connected = $self->_ensure_connected();
 	if ($is_connected){
 
-            my $content = sprintf('{ "gamma": %f, "whitepoint": [%f, %f, %f]}',
+            my $content = sprintf('{ "gamma": %2.2f, "whitepoint": [%2.2f, %2.2f, %2.2f]}',
                                   $gamma, $red, $green, $blue);
+            $self->debug('set_color_correction: ' . $content);
             my $len = length($content) + 4;
             my $len_hi_byte = $len >> 8;
             my $len_lo_byte = $len & 0xFF;
-            
+
             my $header = chr(0) . chr(0xFF) . chr($len_hi_byte) . chr($len_lo_byte)
                 . chr(0) # System ID high byte
                 . chr(1) # System ID low byte
@@ -230,6 +231,7 @@ sub set_color_correction {
             my $message = join('', @$pieces);
             $self->debug('set_color_correction: Sending data to the server:');
             $self->debug('set_color_correction: '.join(" ",map({sprintf("%x",ord($_))} split(//,$message))));
+            $self->debug('set_color_correction: ' . $message);
 		
             $self->{socket}->send($message);
 		
