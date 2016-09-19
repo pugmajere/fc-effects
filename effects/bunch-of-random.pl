@@ -8,7 +8,7 @@ use Time::HiRes qw(gettimeofday usleep sleep);
 my $debug = 0;
 
 my $num_leds = 150;
-my $max_brightness = 150;
+my $gamma = 2.5;
 my $change_percentage = 33;
 my $client = new OPC('localhost:7890');
 $client->can_connect();
@@ -43,9 +43,9 @@ sub pick_random_colors {
     my ($change_percentage) = @_;
     for (my $i = 0; $i < @$pixels; $i++) {
         if (rand(100) < $change_percentage) {
-            $pixels->[$i] = [int(rand($max_brightness)), # red
-                             int(rand($max_brightness)), # green
-                             int(rand($max_brightness))]; # blue
+            $pixels->[$i] = [int(rand(255)), # red
+                             int(rand(255)), # green
+                             int(rand(255))]; # blue
         }
     }
 
@@ -80,6 +80,8 @@ my @patterns = (\&pick_leslie_colors, \&pick_random_colors, \&pick_fire_colors);
 
 my $last_change = 0;
 my $algo = 1;
+
+$client->setColorCorrection($gamma, 1.0, 1.0, 1.0);
 while(1){
     my ($seconds, $micros) = gettimeofday();
     if ($seconds - $last_change > $rotate_time) {

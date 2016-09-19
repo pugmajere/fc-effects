@@ -205,4 +205,48 @@ sub put_pixels {
 	return $status;
 }
 
+sub set_color_correction {
+	my ($self, $channel, $gamma, $red, $green, $blue) = @_;
+	my $status = 0;
+	$self->debug("set_color_correction: called with channel $channel and values: "
+                     . Data::Dumper::Dumper($gamma, $red, $green, $blue));
+
+	my $is_connected = $self->_ensure_connected();
+	if ($is_connected){
+
+            my $content = sprintf('{ "gamma": %f, "whitepoint": [%f, %f, %f]}',
+                                  $gamma, $red, $green, $blue);
+            my $len = length($content) + 4;
+            my $len_hi_byte = $len >> 8;
+            my $len_lo_byte = $len & 0xFF;
+            
+            my $header = chr(0) . chr(0xFF) . chr($len_hi_byte) . chr($len_lo_byte);
+            
+            my $pieces = [$header, $content];
+            my $message = join('', @$pieces);
+            $self->debug('set_color_correction: Sending data to the server:');
+            $self->debug('set_color_correction: '.join(" ",map({sprintf("%x",ord($_))} split(//,$message))));
+		
+            $self->{socket}->send($message);
+		
+            if ($!){
+                $self->debug('set_color_correction: Received socket error: $!');
+                $status = 0;
+            } else {
+                $status = 1;
+            }
+		
+            unless ($self->{long_connection}) {
+                $self->debug('set_color_correction: not in long_connection / stateful mode. Disconnecting');
+                $self->disconnect();
+            }
+	} else {
+            $self->debug('set_color_correction: not connected. Ignoring these pixels.');
+            $status = 0;
+	}
+
+	$self->debug("set_color_correction: returning $status");
+	return $status;
+}
+
 1;
