@@ -1,3 +1,10 @@
+fc-effects (1.0.3) UNRELEASED; urgency=medium
+
+  * Update changelog for 1.0.2 release
+  * Speed up fire
+
+ -- Ryan Anderson <ryan@michonline.com>  Sun, 18 Sep 2016 22:16:53 -0700
+
 fc-effects (1.0.2) xenial; urgency=medium
 
   * Add more debugging information to the color correction code.
