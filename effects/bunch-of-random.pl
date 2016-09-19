@@ -81,7 +81,7 @@ my @patterns = (\&pick_leslie_colors, \&pick_random_colors, \&pick_fire_colors);
 my $last_change = 0;
 my $algo = 1;
 
-$client->setColorCorrection($gamma, 1.0, 1.0, 1.0);
+$client->set_color_correction(0, $gamma, 1.0, 1.0, 1.0);
 while(1){
     my ($seconds, $micros) = gettimeofday();
     if ($seconds - $last_change > $rotate_time) {

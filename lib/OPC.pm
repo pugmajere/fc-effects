@@ -220,7 +220,11 @@ sub set_color_correction {
             my $len_hi_byte = $len >> 8;
             my $len_lo_byte = $len & 0xFF;
             
-            my $header = chr(0) . chr(0xFF) . chr($len_hi_byte) . chr($len_lo_byte);
+            my $header = chr(0) . chr(0xFF) . chr($len_hi_byte) . chr($len_lo_byte)
+                . chr(0) # System ID high byte
+                . chr(1) # System ID low byte
+                . chr(0) # Command ID high byte
+                . chr(1); # Command ID low byte.
             
             my $pieces = [$header, $content];
             my $message = join('', @$pieces);
