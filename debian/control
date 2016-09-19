@@ -1,0 +1,15 @@
+Source: fc-effects
+Section: unknown
+Priority: optional
+Maintainer: Ryan Anderson <ryan@michonline.com>
+Build-Depends: debhelper (>=9)
+Standards-Version: 3.9.6
+Homepage: https://h4x0r5.com/fc-effects/
+#Vcs-Git: git://anonscm.debian.org/collab-maint/fc-effects.git
+#Vcs-Browser: https://anonscm.debian.org/cgit/collab-maint/fc-effects.git
+
+Package: fc-effects
+Architecture: all
+Depends: ${misc:Depends}
+Description: Various FadeCandy effect scripts.
+ <insert long description, indented with spaces>
