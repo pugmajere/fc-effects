@@ -4,7 +4,7 @@ fc-effects (1.0-2) UNRELEASED; urgency=medium
   * Start sorting out real Debian packaging.
   * Update more basic Debian packaging files.
 
- -- ryan <ryan@mythdell>  Sun, 18 Sep 2016 19:18:07 -0700
+ -- Ryan Anderson <ryan@michonline.com>  Sun, 18 Sep 2016 19:18:07 -0700
 
 fc-effects (1.0-1) unstable; urgency=medium
 
