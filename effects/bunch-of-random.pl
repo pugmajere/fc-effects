@@ -8,7 +8,7 @@ use Time::HiRes qw(gettimeofday usleep sleep);
 my $debug = 0;
 
 my $num_leds = 150;
-my $gamma = 5;
+my $gamma = 4;
 my $change_percentage = 33;
 my $client = new OPC('localhost:7890');
 $client->can_connect();
