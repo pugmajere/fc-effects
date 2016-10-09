@@ -7,9 +7,10 @@ use Time::HiRes qw(gettimeofday usleep sleep);
 
 my $debug = 0;
 
-my $num_leds = 150;
-my $gamma = 4;
+my $num_leds = 24;
+my $gamma = 5;
 my $change_percentage = 33;
+my $color_scale = 2/3;
 my $client = new OPC('localhost:7890');
 $client->can_connect();
 
@@ -17,8 +18,18 @@ my $pixels = [];
 push @$pixels, [0, 0, 0] while scalar(@$pixels) < $num_leds;
 $client->put_pixels(0, $pixels);
 
-my $rotate_time = 1000;
+my $rotate_time = 10;#00;
 my $iterations = 0;
+
+
+sub scale {
+    my ($ar) = @_;
+    my $ret = [0, 0, 0];
+    for (my $i = 0; $i < @$ar; $i++) {
+        $ret->[$i] = $ar->[$i] * $color_scale;
+    }
+    return $ret;
+}
 
 my @lcols = ([195, 144, 212],
              [75, 71, 179],
@@ -32,7 +43,7 @@ sub pick_leslie_colors {
     my ($change_percentage) = @_;
     for (my $i = 0; $i < @$pixels; $i++) {
         if (rand(100) < $change_percentage) {
-            $pixels->[$i] = $lcols[int(rand(@lcols))];
+            $pixels->[$i] = scale($lcols[int(rand(@lcols))]);
         }
     }
 
@@ -43,9 +54,10 @@ sub pick_random_colors {
     my ($change_percentage) = @_;
     for (my $i = 0; $i < @$pixels; $i++) {
         if (rand(100) < $change_percentage) {
-            $pixels->[$i] = [int(rand(255)), # red
-                             int(rand(255)), # green
-                             int(rand(255))]; # blue
+            $pixels->[$i] = scale([int(rand(255)), # red
+                                   int(rand(255)), # green
+                                   int(rand(255))] # bleu
+                );
         }
     }
 
@@ -68,11 +80,11 @@ sub pick_fire_colors {
     for (my $i = 0; $i < @$pixels; $i++) {
         my $pick = rand(100);
         if ($pick < $change_percentage) {
-            $pixels->[$i] = $fcols[int(rand(@fcols))];
+            $pixels->[$i] = scale($fcols[int(rand(@fcols))]);
         }
     }
     # Fire wants a fast flickering, over a smaller percentage of leds.
-    return 0.01;
+    return 0.1;
 }
     
 
@@ -100,7 +112,7 @@ while(1){
     # Send this row of pixels to the server
     $client->put_pixels(0,$pixels);
 
-    Time::HiRes::sleep($delay);
+    Time::HiRes::sleep($delay / 5);
     $iterations++;
 }
 
