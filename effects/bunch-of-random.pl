@@ -105,8 +105,9 @@ sub pick_stpaddy_colors {
 }
     
 
-my @patterns = (\&pick_leslie_colors, \&pick_random_colors, \&pick_fire_colors,
-                \&pick_stpaddy_colors);
+my @patterns = (\&pick_leslie_colors, \&pick_random_colors, \&pick_fire_colors);
+my $stpaddy = scalar @patterns;
+push @patterns, \&pick_stpaddy_colors;
 
 my $last_change = 0;
 my $algo = -1;
@@ -117,7 +118,7 @@ while(1){
     if ($seconds - $last_change > $rotate_time || $algo == -1) {
         my @t = localtime();
         if ($t[4] == 2 && $t[3] <= 19 && $t[3] > 14) {
-            $algo = \&pick_stpaddy_colors;
+            $algo = $stpaddy;
         } else {
             $algo = ($algo + 1) % scalar @patterns;
         }
