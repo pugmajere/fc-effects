@@ -7,7 +7,7 @@ use Time::HiRes qw(gettimeofday usleep sleep);
 
 my $debug = 0;
 
-my $num_leds = 24;
+my $num_leds = 150;
 my $gamma = 5;
 my $change_percentage = 33;
 my $color_scale = 2/3;
