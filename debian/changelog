@@ -1,3 +1,10 @@
+fc-effects (1.0.7) xenial; urgency=medium
+
+  * Remove some debug code, or revert it to the non-debug mode.
+  * Also, fix March to be "2" not "3" (localtime is 0-indexed).
+
+ -- Ryan Anderson <ryan@michonline.com>  Sun, 18 Mar 2018 04:18:08 -0700
+
 fc-effects (1.0.6) xenial; urgency=medium
 
   * Add a St. Patrick's day effect (very green).

@@ -116,7 +116,7 @@ while(1){
     my ($seconds, $micros) = gettimeofday();
     if ($seconds - $last_change > $rotate_time || $algo == -1) {
         my @t = localtime();
-        if ($t[4] == 3 && $t[3] <= 19 && $t[3] > 14) {
+        if ($t[4] == 2 && $t[3] <= 19 && $t[3] > 14) {
             $algo = \&pick_stpaddy_colors;
         } else {
             $algo = ($algo + 1) % scalar @patterns;
