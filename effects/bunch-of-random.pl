@@ -135,7 +135,7 @@ while(1){
     # Send this row of pixels to the server
     $client->put_pixels(0,$pixels);
 
-    Time::HiRes::sleep($delay / 5);
+    Time::HiRes::sleep($delay);
     $iterations++;
 }
 
