@@ -18,7 +18,7 @@ my $pixels = [];
 push @$pixels, [0, 0, 0] while scalar(@$pixels) < $num_leds;
 $client->put_pixels(0, $pixels);
 
-my $rotate_time = 10;#00;
+my $rotate_time = 1000;
 my $iterations = 0;
 
 
@@ -114,7 +114,7 @@ my $algo = -1;
 $client->set_color_correction(0, $gamma, 1.0, 1.0, 1.0);
 while(1){
     my ($seconds, $micros) = gettimeofday();
-    if ($seconds - $last_change > $rotate_time) {
+    if ($seconds - $last_change > $rotate_time || $algo == -1) {
         my @t = localtime();
         if ($t[4] == 3 && $t[3] <= 19 && $t[3] > 14) {
             $algo = \&pick_stpaddy_colors;
