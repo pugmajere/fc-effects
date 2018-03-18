@@ -86,9 +86,27 @@ sub pick_fire_colors {
     # Fire wants a fast flickering, over a smaller percentage of leds.
     return 0.1;
 }
+
+my @greencols = (
+    [0, 255, 0],
+    [0, 128, 0],
+    [0, 0, 0],
+    );
+
+sub pick_stpaddy_colors {
+    my ($change_percentage) = @_;
+    for (my $i = 0; $i < @$pixels; $i++) {
+        my $pick = rand(100);
+        if ($pick < $change_percentage) {
+            $pixels->[$i] = scale($greencols[int(rand(@greencols))]);
+        }
+    }
+    return 1.0;
+}
     
 
-my @patterns = (\&pick_leslie_colors, \&pick_random_colors, \&pick_fire_colors);
+my @patterns = (\&pick_leslie_colors, \&pick_random_colors, \&pick_fire_colors,
+                \&pick_stpaddy_colors);
 
 my $last_change = 0;
 my $algo = -1;
@@ -97,7 +115,12 @@ $client->set_color_correction(0, $gamma, 1.0, 1.0, 1.0);
 while(1){
     my ($seconds, $micros) = gettimeofday();
     if ($seconds - $last_change > $rotate_time) {
-        $algo = ($algo + 1) % scalar @patterns;
+        my @t = localtime();
+        if ($t[4] == 3 && $t[3] <= 19 && $t[3] > 14) {
+            $algo = \&pick_stpaddy_colors;
+        } else {
+            $algo = ($algo + 1) % scalar @patterns;
+        }
         $last_change = $seconds;
     }
     my $rough_ratio = (($seconds + $micros / 1000 / 1000)  - $last_change) / $rotate_time;
