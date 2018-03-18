@@ -1,3 +1,9 @@
+fc-effects (1.0.6) xenial; urgency=medium
+
+  * Add a St. Patrick's day effect (very green).
+
+ -- Ryan Anderson <ryan@michonline.com>  Sun, 18 Mar 2018 03:51:52 -0700
+
 fc-effects (1.0.5) xenial; urgency=medium
 
   * Update changelog for 1.0.2 release
