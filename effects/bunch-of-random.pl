@@ -103,9 +103,53 @@ sub pick_stpaddy_colors {
     }
     return 1.0;
 }
-    
 
-my @patterns = (\&pick_leslie_colors, \&pick_random_colors, \&pick_fire_colors);
+
+sub Wheel {
+    my ($wheel_pos) = @_;
+    # Input a value 0 to 384 to get a color value.
+    # The colours are a transition r - g -b - back to r
+    my $r = 0;
+    my $g = 0;
+    my $b = 0;
+    my $case = $wheel_pos / 128;
+    if ($case == 0) {
+        $r = 127 - $wheel_pos % 128;   #Red down
+        $g = $wheel_pos % 128;      # Green up
+        $b = 0;                  #blue off
+    } elsif ($case == 1) {
+        $g = 127 - $wheel_pos % 128;  #green down
+        $b = $wheel_pos % 128;      #blue up
+        $r = 0;                  #red off
+    } elsif ($case == 2) {
+        $b = 127 - $wheel_pos % 128;  #blue down 
+        $r = $wheel_pos % 128;      #red up
+        $g = 0;                  #green off
+    }
+
+    return ($r, $g, $b);
+}
+
+
+my $rainbow_wheel_counter = 0;
+sub set_rainbow_oneshot {
+    my ($change_percentage) = @_;
+    
+    for (my $i = 0; $i < @$pixels; $i++) {
+        my $pick = rand(100);
+        if ($pick < $change_percentage) {
+            my ($r, $g, $b) = Wheel(
+                (($i * 384 / scalar @$pixels) + $rainbow_wheel_counter)  % 384);
+            $pixels->[$i] = scale([$r, $g, $b])
+        }
+    }
+    $rainbow_wheel_counter = ($rainbow_wheel_counter + 1) % 384;
+    return 1.0;
+}    
+
+
+my @patterns = (\&pick_leslie_colors, \&pick_random_colors, 
+                \&pick_fire_colors, \&set_rainbow_oneshot);
 my $stpaddy = scalar @patterns;
 push @patterns, \&pick_stpaddy_colors;
 
