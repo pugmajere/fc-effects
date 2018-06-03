@@ -1,3 +1,9 @@
+fc-effects (1.0.7+nmu1) xenial; urgency=medium
+
+  * Add a rainbow
+
+ -- Ryan Anderson <ryan@mythdell.internal.h4x0r5.com>  Sun, 03 Jun 2018 15:00:46 -0700
+
 fc-effects (1.0.7) xenial; urgency=medium
 
   * Remove some debug code, or revert it to the non-debug mode.
