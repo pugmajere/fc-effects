@@ -107,24 +107,27 @@ sub pick_stpaddy_colors {
 
 sub Wheel {
     my ($wheel_pos) = @_;
-    # Input a value 0 to 384 to get a color value.
+    # Input a value 0 to 768 to get a color value.
     # The colours are a transition r - g -b - back to r
     my $r = 0;
     my $g = 0;
     my $b = 0;
-    my $case = $wheel_pos / 128;
+    my $case = int($wheel_pos / 256);
+    # printf("case = %s, wheel_pos = %s\n", $case, $wheel_pos);
     if ($case == 0) {
-        $r = 127 - $wheel_pos % 128;   #Red down
-        $g = $wheel_pos % 128;      # Green up
+        $r = 255 - ($wheel_pos % 256);   #Red down
+        $g = $wheel_pos % 256;      # Green up
         $b = 0;                  #blue off
     } elsif ($case == 1) {
-        $g = 127 - $wheel_pos % 128;  #green down
-        $b = $wheel_pos % 128;      #blue up
+        $g = 255 - ($wheel_pos % 256);  #green down
+        $b = $wheel_pos % 256;      #blue up
         $r = 0;                  #red off
     } elsif ($case == 2) {
-        $b = 127 - $wheel_pos % 128;  #blue down 
-        $r = $wheel_pos % 128;      #red up
+        $b = 255 - ($wheel_pos % 256);  #blue down
+        $r = $wheel_pos % 256;      #red up
         $g = 0;                  #green off
+    } else {
+	die "case $case unexpected.";
     }
 
     return ($r, $g, $b);
@@ -134,39 +137,67 @@ sub Wheel {
 my $rainbow_wheel_counter = 0;
 sub set_rainbow_oneshot {
     my ($change_percentage) = @_;
-    
+
     for (my $i = 0; $i < @$pixels; $i++) {
         my $pick = rand(100);
-        if ($pick < $change_percentage) {
+        if (1 || $pick < $change_percentage) {
+	    my $pixel_idx = $i; # % 50;
             my ($r, $g, $b) = Wheel(
-                (($i * 384 / scalar @$pixels) + $rainbow_wheel_counter)  % 384);
+                (($pixel_idx * 768 / scalar @$pixels) + $rainbow_wheel_counter) % 768);
+	    # printf("LED %i: (%d, %d, %d).\n", $i, $r, $g, $b);
             $pixels->[$i] = scale([$r, $g, $b])
         }
     }
-    $rainbow_wheel_counter = ($rainbow_wheel_counter + 1) % 384;
-    return 1.0;
-}    
+    $rainbow_wheel_counter = ($rainbow_wheel_counter + 1) % 768;
+    return 0.03;
+}
+
+my @rainbow_colors = (
+  [148, 0, 211],
+  [75, 0, 130],
+  [0, 0, 255],
+  [0, 255, 0],
+  [255, 255, 0],
+  [255, 127, 0],
+  [255, 0, 0],
+); 
+
+my $static_rainbow_idx = 0;
+sub static_rainbow {
+    my ($change_percentage) = @_;
+
+    $static_rainbow_idx += 1;
+
+    for (my $i = 0; $i < @$pixels; $i++) {
+      my $col = ($static_rainbow_idx + $i) % scalar @rainbow_colors;
+      $pixels->[$i] = scale($rainbow_colors[$col]);
+    }
+    return 5.0;
+}
 
 
 my @patterns = (\&pick_leslie_colors, \&pick_random_colors, 
                 \&pick_fire_colors);
+
 my $stpaddy = scalar @patterns;
 push @patterns, \&pick_stpaddy_colors;
+
 my $rainbow = scalar @patterns;
-push @patterns,  \&set_rainbow_oneshot;
+my $rainbow_count = 2;
+push @patterns,  \&set_rainbow_oneshot, \&static_rainbow;
 
 my $last_change = 0;
 my $algo = -1;
 
 $client->set_color_correction(0, $gamma, 1.0, 1.0, 1.0);
-while(1){
+while(1) {
     my ($seconds, $micros) = gettimeofday();
     if ($seconds - $last_change > $rotate_time || $algo == -1) {
         my @t = localtime();
         if ($t[4] == 2 && $t[3] <= 19 && $t[3] > 14) {
             $algo = $stpaddy;
         } elsif ($t[4] == 5) {
-            $algo = $rainbow;
+	    $algo = (($algo + 1) % $rainbow_count) + $rainbow;
         } else {
             $algo = ($algo + 1) % scalar @patterns;
         }

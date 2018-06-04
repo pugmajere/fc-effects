@@ -1,8 +1,14 @@
-fc-effects (1.0.9) UNRELEASED; urgency=medium
+fc-effects (1.0.10) xenial; urgency=medium
 
-  * Make Rainbow a thing during June.
+  * Make the rainbows work, and add another simpler and better one.
 
- -- Ryan Anderson <ryan@michonline.com>  Sun, 03 Jun 2018 20:47:35 -0700
+ -- Ryan Anderson <ryan@michonline.com>  Sun, 03 Jun 2018 21:55:06 -0700
+
+fc-effects (1.0.9) xenial; urgency=medium
+
+  * Make Rainbow a thing during June for Pride.
+
+ -- Ryan Anderson <ryan@michonline.com>  Sun, 03 Jun 2018 21:54:32 -0700
 
 fc-effects (1.0.8) xenial; urgency=medium
 
