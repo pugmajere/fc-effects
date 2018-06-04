@@ -1,3 +1,9 @@
+fc-effects (1.0.9) UNRELEASED; urgency=medium
+
+  * Make Rainbow a thing during June.
+
+ -- Ryan Anderson <ryan@michonline.com>  Sun, 03 Jun 2018 20:47:35 -0700
+
 fc-effects (1.0.8) xenial; urgency=medium
 
   * Add a rainbow

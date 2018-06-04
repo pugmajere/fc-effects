@@ -149,9 +149,11 @@ sub set_rainbow_oneshot {
 
 
 my @patterns = (\&pick_leslie_colors, \&pick_random_colors, 
-                \&pick_fire_colors, \&set_rainbow_oneshot);
+                \&pick_fire_colors);
 my $stpaddy = scalar @patterns;
 push @patterns, \&pick_stpaddy_colors;
+my $rainbow = scalar @patterns;
+push @patterns,  \&set_rainbow_oneshot;
 
 my $last_change = 0;
 my $algo = -1;
@@ -163,6 +165,8 @@ while(1){
         my @t = localtime();
         if ($t[4] == 2 && $t[3] <= 19 && $t[3] > 14) {
             $algo = $stpaddy;
+        } elsif ($t[4] == 5) {
+            $algo = $rainbow;
         } else {
             $algo = ($algo + 1) % scalar @patterns;
         }
