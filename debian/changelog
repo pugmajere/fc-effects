@@ -1,3 +1,10 @@
+fc-effects (1.0.11) xenial; urgency=medium
+
+  * Make the rainbow more pridey.
+  * Release.
+
+ -- Ryan Anderson <ryan@michonline.com>  Tue, 12 Jun 2018 23:29:49 -0700
+
 fc-effects (1.0.10) xenial; urgency=medium
 
   * Make the rainbows work, and add another simpler and better one.
