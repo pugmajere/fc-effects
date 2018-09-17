@@ -180,6 +180,14 @@ sub static_rainbow {
     return 5.0;
 }
 
+sub nothing {
+    my ($change_percentage) = @_;
+    for (my $i = 0; $i < @$pixels; $i++) {
+        $pixels->[$i] = [0, 0, 0];
+    }
+    return 60.0;
+}
+
 
 my @patterns = (\&pick_leslie_colors, \&pick_random_colors, 
                 \&pick_fire_colors);
@@ -193,6 +201,7 @@ push @patterns,  \&set_rainbow_oneshot, \&static_rainbow;
 
 my $last_change = 0;
 my $algo = -1;
+my $chosen_algo;
 
 $client->set_color_correction(0, $gamma, 1.0, 1.0, 1.0);
 while(1) {
@@ -207,6 +216,11 @@ while(1) {
             $algo = ($algo + 1) % scalar @patterns;
         }
         $last_change = $seconds;
+        if ($t[2] > 6 && $t[2] < 18) {
+            $chosen_algo = \&nothing;
+        } else {
+            $chosen_algo = $patterns[$algo];
+        }
     }
     my $rough_ratio = (($seconds + $micros / 1000 / 1000)  - $last_change) / $rotate_time;
     my $ratio = min($rough_ratio / 0.05, 1.0);
@@ -215,7 +229,7 @@ while(1) {
            $algo, $rough_ratio, $ratio)
         if $debug;
     
-    my $delay = $patterns[$algo]->($change_percentage * $ratio);
+    my $delay = $chosen_algo->($change_percentage * $ratio);
     
     # Send this row of pixels to the server
     $client->put_pixels(0,$pixels);
