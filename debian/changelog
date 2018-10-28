@@ -1,14 +1,20 @@
+fc-effects (1.0.13) UNRELEASED; urgency=medium
+
+  * Add yellow.
+
+ -- Ryan Anderson <ryan@michonline.com>  Sun, 28 Oct 2018 01:32:55 -0700
+
 fc-effects (1.0.12+nmu1) unstable; urgency=medium
 
   * Add Halloween.
 
- -- Ryan Anderson <ryan@mythdell.internal.h4x0r5.com>  Sat, 27 Oct 2018 23:11:29 -0700
+ -- Ryan Anderson <ryan@michonline.com>  Sat, 27 Oct 2018 23:11:29 -0700
 
 fc-effects (1.0.12) UNRELEASED; urgency=medium
 
   * Turn lights off during roughly daylight hours.
 
- -- Ryan Anderson <ryan@mythdell.internal.h4x0r5.com>  Sun, 16 Sep 2018 23:23:52 -0700
+ -- Ryan Anderson <ryan@michonline.com>  Sun, 16 Sep 2018 23:23:52 -0700
 
 fc-effects (1.0.11) xenial; urgency=medium
 
@@ -47,7 +53,7 @@ fc-effects (1.0.6) xenial; urgency=medium
   * Add a St. Patrick's day effect (very green).
   * and fix the number of LEDs back to 150.
 
- -- Ryan Anderson <ryan@mythdell.internal.h4x0r5.com>  Sun, 18 Mar 2018 04:08:43 -0700
+ -- Ryan Anderson <ryan@michonline.com>  Sun, 18 Mar 2018 04:08:43 -0700
 
 fc-effects (1.0.5) xenial; urgency=medium
 
