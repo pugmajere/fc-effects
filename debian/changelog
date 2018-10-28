@@ -1,3 +1,9 @@
+fc-effects (1.0.12+nmu1) unstable; urgency=medium
+
+  * Add Halloween.
+
+ -- Ryan Anderson <ryan@mythdell.internal.h4x0r5.com>  Sat, 27 Oct 2018 23:11:29 -0700
+
 fc-effects (1.0.12) UNRELEASED; urgency=medium
 
   * Turn lights off during roughly daylight hours.

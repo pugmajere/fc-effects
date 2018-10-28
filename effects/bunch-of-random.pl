@@ -104,6 +104,23 @@ sub pick_stpaddy_colors {
     return 1.0;
 }
 
+my @orangecols = (
+    [255, 165, 0],
+    [255, 140, 0],
+    [255, 69, 0],
+    [0, 0, 0],
+    );
+
+sub pick_halloween_colors {
+    my ($change_percentage) = @_;
+    for (my $i = 0; $i < @$pixels; $i++) {
+        my $pick = rand(100);
+        if ($pick < $change_percentage) {
+            $pixels->[$i] = scale($orangecols[int(rand(@orangecols))]);
+        }
+    }
+    return 1.0;
+}
 
 sub Wheel {
     my ($wheel_pos) = @_;
@@ -195,6 +212,9 @@ my @patterns = (\&pick_leslie_colors, \&pick_random_colors,
 my $stpaddy = scalar @patterns;
 push @patterns, \&pick_stpaddy_colors;
 
+my $halloween = scalar @patterns;
+push @patterns, \&pick_halloween_colors;
+
 my $rainbow = scalar @patterns;
 my $rainbow_count = 2;
 push @patterns,  \&set_rainbow_oneshot, \&static_rainbow;
@@ -212,6 +232,8 @@ while(1) {
             $algo = $stpaddy;
         } elsif ($t[4] == 5) {
 	    $algo = (($algo + 1) % $rainbow_count) + $rainbow;
+        } elsif ($t[4] == 9 && $t[3] >= 25) {
+            $algo = $halloween;
         } else {
             $algo = ($algo + 1) % scalar @patterns;
         }
