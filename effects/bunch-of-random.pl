@@ -198,6 +198,24 @@ sub static_rainbow {
     return 5.0;
 }
 
+my @redgreenblank = (
+    [255, 0, 0],
+    [128, 0, 0],
+    [128, 128, 128],
+    [0, 255, 0],
+    [0, 128, 0],
+    [0, 0, 0],
+    );
+
+
+sub xmas {
+    for (my $i = 0; $i < @$pixels; $i++) {
+        $pixels->[$i] = $redgreenblank[($i + $iterations) % @redgreenblank];
+    }
+    return 1;
+}
+
+
 sub nothing {
     my ($change_percentage) = @_;
     for (my $i = 0; $i < @$pixels; $i++) {
@@ -220,6 +238,9 @@ my $rainbow = scalar @patterns;
 my $rainbow_count = 2;
 push @patterns,  \&set_rainbow_oneshot, \&static_rainbow;
 
+my $xmas = scalar @patterns;
+push @patterns, \&xmas;
+
 my $last_change = 0;
 my $algo = -1;
 my $chosen_algo;
@@ -235,6 +256,8 @@ while(1) {
 	    $algo = (($algo + 1) % $rainbow_count) + $rainbow;
         } elsif ($t[4] == 9 && $t[3] >= 25) {
             $algo = $halloween;
+        } elsif ($t[4] == 11 && $t[3] >= 18) {
+            $algo = $xmas;
         } else {
             $algo = ($algo + 1) % scalar @patterns;
         }
