@@ -4,6 +4,7 @@ Requires=fadecandy
 
 [Service]
 ExecStart=/usr/lib/fc-effects/bunch-of-random.pl
+ExecStopPost=/usr/lib/fc-effects/turnthemoff.pl
 Restart=on-abort
 
 [Install]

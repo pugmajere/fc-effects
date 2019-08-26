@@ -151,8 +151,7 @@ sub Wheel {
     return ($r, $g, $b);
 }
 
-
-my $rainbow_wheel_counter = 0;
+my $rainbow_wheel_counter = gettimeofday()[0];
 sub set_rainbow_oneshot {
     my ($change_percentage) = @_;
 
@@ -246,6 +245,11 @@ my $algo = -1;
 my $chosen_algo;
 
 $client->set_color_correction(0, $gamma, 1.0, 1.0, 1.0);
+
+# Initialize a rainbow.
+set_rainbow_oneshot(1.0);
+$client->put_pixels(0, $pixels);
+
 while(1) {
     my ($seconds, $micros) = gettimeofday();
     if ($seconds - $last_change > $rotate_time || $algo == -1) {

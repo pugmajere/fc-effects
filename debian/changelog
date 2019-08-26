@@ -1,3 +1,9 @@
+fc-effects (1.0.15) UNRELEASED; urgency=medium
+
+  * Turn off the lights when the service is stopped.
+
+ -- Ryan Anderson <ryan@michonline.com>  Mon, 26 Aug 2019 00:52:52 -0700
+
 fc-effects (1.0.14) UNRELEASED; urgency=medium
 
   * Add a Xmas pattern.
