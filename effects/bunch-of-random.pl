@@ -224,22 +224,41 @@ sub nothing {
 }
 
 
-my @patterns = (\&pick_leslie_colors, \&pick_random_colors, 
-                \&pick_fire_colors);
 
-my $stpaddy = scalar @patterns;
-push @patterns, \&pick_stpaddy_colors;
+my @patterns;
+my $stpaddy;
+my $halloween;
+my $rainbow;
+my $rainbow_count;
+my $xmas;
 
-my $halloween = scalar @patterns;
-push @patterns, \&pick_halloween_colors;
+sub pick_pattern_subset {
+    my @startup_date = localtime();
+    my $startup_month = $startup_date[4];
+    @patterns = (\&pick_leslie_colors, \&pick_random_colors, 
+                 \&pick_fire_colors);
 
-my $rainbow = scalar @patterns;
-my $rainbow_count = 2;
-push @patterns,  \&set_rainbow_oneshot, \&static_rainbow;
+    if ($startup_month == 2) {
+        $stpaddy = scalar @patterns;
+        push @patterns, \&pick_stpaddy_colors;
+    }
 
-my $xmas = scalar @patterns;
-push @patterns, \&xmas;
+    if ($startup_month == 9) {
+        $halloween = scalar @patterns;
+        push @patterns, \&pick_halloween_colors;
+    }
 
+    $rainbow = scalar @patterns;
+    $rainbow_count = 2;
+    push @patterns,  \&set_rainbow_oneshot, \&static_rainbow;
+
+    if ($startup_month == 11) {
+        $xmas = scalar @patterns;
+        push @patterns, \&xmas;
+    }
+}
+
+my $last_pattern_update = 0;
 my $last_change = 0;
 my $algo = -1;
 my $chosen_algo;
@@ -252,9 +271,13 @@ set_rainbow_oneshot(1.0);
 $client->put_pixels(0, $pixels);
 
 while(1) {
+    my @t = localtime();
+    if ($last_pattern_update == 0 || $last_pattern_update != $t[3]) {
+        $last_pattern_update = $t[3];
+        pick_pattern_subset();
+    }
     my ($seconds, $micros) = gettimeofday();
     if ($seconds - $last_change > $rotate_time || $algo == -1) {
-        my @t = localtime();
         if ($t[4] == 2 && $t[3] <= 19 && $t[3] > 14) {
             $algo = $stpaddy;
         } elsif ($t[4] == 5) {
