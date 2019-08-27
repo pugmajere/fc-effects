@@ -201,6 +201,7 @@ my @redgreenblank = (
     [255, 0, 0],
     [128, 0, 0],
     [128, 128, 128],
+    [0, 0, 0],
     [0, 255, 0],
     [0, 128, 0],
     [0, 0, 0],
@@ -223,6 +224,32 @@ sub nothing {
     return 60.0;
 }
 
+my $cylon_width = 5;
+my $cylon_position = 0;
+my $cylon_increment = 1;
+sub cylon_sweep {
+    if ($cylon_position + 1 + $cylon_width == $num_leds) {
+        $cylon_increment = -1;
+    } elsif ($cylon_position - 1 < 0) {
+        $cylon_increment = 1;
+    }
+    if ($cylon_increment == 1) {
+        $pixels->[$cylon_position] = [0, 0, 0];
+    } elsif ($cylon_increment == -1) {
+        $pixels->[$cylon_position + $cylon_width] = [0, 0, 0];
+    }
+    
+    $cylon_position += $cylon_increment;
+    
+    for (my $i = $cylon_position;
+         $i < $cylon_position + $cylon_width;
+         $i += 1) {
+        printf("Setting %d\n", $i) if $debug;
+        $pixels->[$i] = [255, 0, 0];
+    }
+    return 0.1;
+}
+
 
 
 my @patterns;
@@ -235,8 +262,11 @@ my $xmas;
 sub pick_pattern_subset {
     my @startup_date = localtime();
     my $startup_month = $startup_date[4];
+
     @patterns = (\&pick_leslie_colors, \&pick_random_colors, 
                  \&pick_fire_colors);
+
+    push @patterns, \&cylon_sweep;
 
     if ($startup_month == 2) {
         $stpaddy = scalar @patterns;
@@ -304,7 +334,17 @@ while(1) {
         if $debug;
     
     my $delay = $chosen_algo->($change_percentage * $ratio);
-    
+
+    my $count = 0;
+    for (my $i = 0; $i < $num_leds; $i++) {
+        if ($pixels->[$i][0] != 0 ||
+            $pixels->[$i][1] != 0 ||
+            $pixels->[$i][2] != 0) {
+            printf("%d is set.\n", $i) if $debug;
+            $count++;
+        }
+    }
+    printf("count = %d\n", $count) if $debug;
     # Send this row of pixels to the server
     $client->put_pixels(0,$pixels);
 
