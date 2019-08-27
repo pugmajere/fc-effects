@@ -1,3 +1,9 @@
+fc-effects (1.0.16) UNRELEASED; urgency=medium
+
+  * Rework the holiday patterns to show up less frequently. 
+
+ -- Ryan Anderson <ryan@mythdell.internal.h4x0r5.com>  Mon, 26 Aug 2019 20:35:03 -0700
+
 fc-effects (1.0.15) UNRELEASED; urgency=medium
 
   * Turn off the lights when the service is stopped.
