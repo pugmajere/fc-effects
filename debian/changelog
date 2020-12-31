@@ -1,12 +1,19 @@
-fc-effects (1.0.17) UNRELEASED; urgency=medium
+fc-effects (1.0.17ubuntu1) groovy; urgency=medium
 
-  * Add a cylon pattern.
+  * Make the Xmas pattern run for fewer days.
 
- -- Ryan Anderson <ryan@mythdell.internal.h4x0r5.com>  Mon, 26 Aug 2019 23:21:48 -0700
+ -- Ryan Anderson <ryan@mythdell2020>  Wed, 30 Dec 2020 19:17:26 -0800
+
+fc-effects (1.0.17) groovy; urgency=medium
+
+   * Add a cylon pattern.
+   * Released.
+
+ -- Ryan Anderson <ryan@mythdell2020>  Wed, 30 Dec 2020 19:16:53 -0800
 
 fc-effects (1.0.16) UNRELEASED; urgency=medium
 
-  * Rework the holiday patterns to show up less frequently. 
+  * Rework the holiday patterns to show up less frequently.
 
  -- Ryan Anderson <ryan@mythdell.internal.h4x0r5.com>  Mon, 26 Aug 2019 20:35:03 -0700
 

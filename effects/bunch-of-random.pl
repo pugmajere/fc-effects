@@ -262,6 +262,7 @@ my $xmas;
 sub pick_pattern_subset {
     my @startup_date = localtime();
     my $startup_month = $startup_date[4];
+    my $startup_day = $startup_date[3];
 
     @patterns = (\&pick_leslie_colors, \&pick_random_colors, 
                  \&pick_fire_colors);
@@ -282,7 +283,7 @@ sub pick_pattern_subset {
     $rainbow_count = 2;
     push @patterns,  \&set_rainbow_oneshot, \&static_rainbow;
 
-    if ($startup_month == 11) {
+    if ($startup_month == 11 && $startup_day > 18 && $startup_day < 28) {
         $xmas = scalar @patterns;
         push @patterns, \&xmas;
     }
